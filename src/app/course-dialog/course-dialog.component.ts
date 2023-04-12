@@ -37,6 +37,7 @@ export class CourseDialogComponent implements AfterViewInit {
             longDescription: [course.longDescription,Validators.required]
         });
 
+
     }
 
     ngAfterViewInit() {
@@ -46,7 +47,9 @@ export class CourseDialogComponent implements AfterViewInit {
     save() {
 
       const changes = this.form.value;
-      this.coursesService.saveCourse(this.course.id, changes)
+      const saveCourse$ = this.coursesService.saveCourse(this.course.id, changes)
+
+      this.loadingService.showLoaderUntilCompleted(saveCourse$)
         .subscribe(
             val => {
                 this.dialogRef.close(val)
